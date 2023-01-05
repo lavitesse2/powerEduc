@@ -15,13 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   pluginTest
- * @copyright 2022, Wilfried Tsague <wilfried.tsague@ipowerworld.net>
+ * @package   plugintype_pluginname
+ * @copyright 2020, You Name <your@email.address>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- defined('MOODLE_INTERNAL') || die();
-
-$plugin->corponent = 'local_message';
-$plugin->version = 2022121000;
-$plugin->requires = 2014051200;;
+function local_test_before_footer(){
+    \core\notification::add('message de test', \core\output\notification::NOTIFY_SUCCESS);
+}

@@ -15,12 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   pluginTest
- * @copyright 2022, Wilfried Tsague <wilfried.tsague@ipowerworld.net>
+ * @package   plugintype_pluginname
+ * @copyright 2020, You Name <your@email.address>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- function local_message_before_footer()
- {
-    die('hello');
- }
+ require_once (__DIR__ . '/../../config.php');
+$PAGE->set_url(new moodle_url('/local/test/manage.php'));
+$PAGE->set_context(\context_system::instance());
+$PAGE->set_title('page test');
+ echo $OUTPUT->header();
+
+$templatecontext = (object)[
+    'texttodisplay' => 'ici un exemple de texte à mettre',
+];
+
+echo  $OUTPUT->render_from_template('local_test/manage', $templatecontext);
+
+ echo $OUTPUT->footer();
