@@ -20,25 +20,27 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- require_once (__DIR__ . '/../../config.php');
 
- global $DB;
 
-$PAGE->set_url(new moodle_url('/local/test/manage.php'));
+require_once (__DIR__ . '/../../config.php');
+
+global $DB;
+
+$PAGE->set_url(new moodle_url('/local/cours/manage.php'));
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('page test');
+$PAGE->set_title('Liste des cours');
 
-$messages = $DB->get_records('test');
+$cours = $DB->get_records('cours');
 
 
- echo $OUTPUT->header();
+echo $OUTPUT->header();
 
 
 $templatecontext = (object)[
-    'messages' =>array_values($messages),
-    'editurl' =>new moodle_url('/local/test/edit.php')
+   'listedescours' =>array_values($cours),
+   'editurl' =>new moodle_url('/local/cours/create.php')
 ];
 
-echo  $OUTPUT->render_from_template('local_test/manage', $templatecontext);
+echo  $OUTPUT->render_from_template('local_cours/manage', $templatecontext);
 
 echo $OUTPUT->footer();

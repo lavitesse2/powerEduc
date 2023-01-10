@@ -23,14 +23,14 @@
 use core_h5p\core;
 
 require_once (__DIR__ . '/../../config.php');
-require_once ($CFG->dirroot . ' /local/test/classes/form/edit.php');
+require_once ($CFG->dirroot . ' /local/cours/classes/form/edit.php');
 
 
 global $DB;
 
-$PAGE->set_url(new moodle_url('/local/test/edit.php'));
+$PAGE->set_url(new moodle_url('/local/cours/create.php'));
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('edit');
+$PAGE->set_title('create');
 
 $mform = new edit();
 
@@ -38,7 +38,7 @@ $mform = new edit();
 
 if ($mform->is_cancelled()) {
 
-    redirect($CFG->wwwroot . '/local/test/manage.php','vous avez annulé');
+    redirect($CFG->wwwroot . '/local/cours/manage.php','vous avez annulé');
     //Handle form cancel operation, if cancel button is present on form
 } else if ($fromform = $mform->get_data()) {
   //insert into db
@@ -46,16 +46,17 @@ if ($mform->is_cancelled()) {
 
   $recordtoinsert = new stdClass();
 
-  $recordtoinsert->test = $fromform->messagetext;
-  $recordtoinsert->testtype = $fromform->messagetype;
+  $recordtoinsert->cours = $fromform->cours;
+  $recordtoinsert->libelle = $fromform->libelle;
+  $recordtoinsert->nbrechap = $fromform->nbrechap;
 
-//   var_dump($fromform);
-//   die;
+  // var_dump($fromform);
+  // die;
 
-  $DB->insert_record('test', $recordtoinsert);
+  $DB->insert_record('cours', $recordtoinsert);
   
 //   \core\notification::add('Message bien enregisté', \core\output\notification::NOTIFY_SUCCESS);
-  redirect($CFG->wwwroot . '/local/test/manage.php','Message bien enregisté');
+  redirect($CFG->wwwroot . '/local/cours/manage.php','Message bien enregisté');
 
 
 

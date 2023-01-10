@@ -20,25 +20,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- require_once (__DIR__ . '/../../config.php');
+defined('MOODLE_INTERNAL') || die();
 
- global $DB;
-
-$PAGE->set_url(new moodle_url('/local/test/manage.php'));
-$PAGE->set_context(\context_system::instance());
-$PAGE->set_title('page test');
-
-$messages = $DB->get_records('test');
-
-
- echo $OUTPUT->header();
-
-
-$templatecontext = (object)[
-    'messages' =>array_values($messages),
-    'editurl' =>new moodle_url('/local/test/edit.php')
-];
-
-echo  $OUTPUT->render_from_template('local_test/manage', $templatecontext);
-
-echo $OUTPUT->footer();
+$plugin->component = 'local_cours';
+$plugin->version = 2022041900;
+$plugin->requires = 2014051200;

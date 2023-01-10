@@ -21,5 +21,30 @@
  */
 
 function local_test_before_footer(){
-    \core\notification::add('message de test', \core\output\notification::NOTIFY_SUCCESS);
+
+    global $DB;
+
+    $messages = $DB->get_records('test');
+
+foreach ($messages as $message)
+{
+    
+    $type = \core\output\notification::NOTIFY_INFO;
+
+    if ($message->messagetype === '0')
+    $type = \core\output\notification::NOTIFY_WARNING;
+
+    if ($message->testtype === '1')
+    $type = \core\output\notification::NOTIFY_SUCCESS;
+
+    if ($message->testtype === '2')
+    $type = \core\output\notification::NOTIFY_ERROR;
+
+
+    
+    \core\notification::add($message->test, $type);
+
+}
+
+    
 }
