@@ -30,12 +30,12 @@ class edit extends moodleform {
        
         $mform = $this->_form; // Don't forget the underscore! 
 
-        $mform->addElement('text', 'cours', 'titre du cours'); 
+        $mform->addElement('text', 'cours', 'Titre du cours'); 
         $mform->setType('cours', PARAM_NOTAGS);                     // Set type of element.
         $mform->setDefault('cours', 'Please enter your message');        // Default value.
        
-        $mform->addElement('text', 'libelle', 'libelle');
-        $mform->setType('libelle', PARAM_NOTAGS);
+        $mform->addElement('textarea', 'libelle', 'libelle');
+        $mform->setType('text', PARAM_NOTAGS);
         $mform->setDefault('libelle','description du cours');
 
         $mform->addElement('text', 'nbrechap', 'nombre de chapitre');

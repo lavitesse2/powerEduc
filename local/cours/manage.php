@@ -38,9 +38,9 @@ echo $OUTPUT->header();
 
 $templatecontext = (object)[
    'listedescours' =>array_values($cours),
-   'editurl' =>new moodle_url('/local/cours/create.php')
+   'editurlcours' =>new moodle_url('/local/cours/create.php')
 ];
 
-echo  $OUTPUT->render_from_template('local_cours/manage', $templatecontext);
+echo $OUTPUT->render_from_template('local_test/manage', $templatecontext);
 
 echo $OUTPUT->footer();

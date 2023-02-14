@@ -15,17 +15,19 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template local_test/admin_setting_tabs
+    @template local_cours/admin_setting_tabs
 
 
     Example context (json):
     {
     }
 }}
-<h1> Liste des messages </h1>
-{{# messages}}
-    <p> {{test}} </p>
-{{/ messages}}
+<h1> Liste des cours </h1>
+
+
+{{# listedescours}}
+    <p> {{cours}} </p>
+{{/ listedescours}}
 
 <hr>
-<input type="button" class="btn btn-primary" value="créer un nouveau message" onclick="location.href='{{editurl}}' " id="">
+<input type="button" class="btn btn-primary" value="créer un nouveau message" onclick="location.href='{{editurlcours}}' " id="">

@@ -39,6 +39,6 @@ $templatecontext = (object)[
     'editurl' =>new moodle_url('/local/test/edit.php')
 ];
 
-echo  $OUTPUT->render_from_template('local_test/manage', $templatecontext);
+// echo  $OUTPUT->render_from_template('local_test/manage', $templatecontext);
 
 echo $OUTPUT->footer();

@@ -20,31 +20,31 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-function local_test_before_footer(){
+//     function local_test_before_footer(){
 
-    global $DB;
+//         global $DB;
 
-    $messages = $DB->get_records('test');
+//         $messages = $DB->get_records('test');
 
-foreach ($messages as $message)
-{
+//     foreach ($messages as $message)
+//     {
+        
+//         $type = \core\output\notification::NOTIFY_INFO;
+
+//         if ($message->messagetype === '0')
+//         $type = \core\output\notification::NOTIFY_WARNING;
+
+//         if ($message->testtype === '1')
+//         $type = \core\output\notification::NOTIFY_SUCCESS;
+
+//         if ($message->testtype === '2')
+//         $type = \core\output\notification::NOTIFY_ERROR;
+
+
+        
+//         \core\notification::add($message->test, $type);
+
+//     }
+
     
-    $type = \core\output\notification::NOTIFY_INFO;
-
-    if ($message->messagetype === '0')
-    $type = \core\output\notification::NOTIFY_WARNING;
-
-    if ($message->testtype === '1')
-    $type = \core\output\notification::NOTIFY_SUCCESS;
-
-    if ($message->testtype === '2')
-    $type = \core\output\notification::NOTIFY_ERROR;
-
-
-    
-    \core\notification::add($message->test, $type);
-
-}
-
-    
-}
+// }
