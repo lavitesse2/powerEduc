@@ -53,10 +53,10 @@ class manager {
     public function get_messages(int $userid): array
     {
         global $DB;
-        $sql = "SELECT lm.id, lm.messagetext, lm.messagetype
+        $sql = 'SELECT lm.id, lm.messagetext, lm.messagetype
             FROM {local_message} lm 
             LEFT OUTER JOIN {local_message_read} lmr ON lm.id = lmr.messageid AND lmr.userid = :userid 
-            WHERE lmr.userid IS NULL";
+            WHERE lmr.userid IS NULL';
         $params = [
             'userid' => $userid,
         ];
@@ -67,7 +67,7 @@ class manager {
             return [];
         }
     }
-
+    
     
 
     /** Gets all messages
