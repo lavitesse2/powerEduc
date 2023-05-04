@@ -24,17 +24,58 @@ use core\progress\display;
 use local_powerschool\form\anneescolaire;
 
 require_once(__DIR__ . '/../../config.php');
+// require_once($CFG->libdir.'/adminlib.php');
+
+// $path = optional_param('path','',PARAM_PATH);
+// $pageparams = array();
+
+// if($path){
+//     $pageparams['path'] = $path;
+// }
+
+// $previewnode = $PAGE->navigation->add('annee scolaire', new moodle_url('/local/anneescolaire.php'), navigation_node::override_active_url(new moodle_url('/powerschool/index.php')));
+// $thingnode = $previewnode->add('campus', new moodle_url('/local/campus.php'));
+// $thingnode->make_active();
+
+// $settingnode = $PAGE->settingsnav->add('annee scolaire', new moodle_url('/local/anneescolaire.php'), navigation_node::TYPE_CONTAINER);
+// $thingnode = $settingnode->add('campus', new moodle_url('/local/campus.php'));
+// $thingnode->make_active();
+
+$PAGE->navbar->ignore_active(true);
+$PAGE->navbar->add('Administration du Site',  $PAGE->url->out_omit_querystring());
+// $PAGE->navbar->add('campus', new moodle_url('/local/campus.php'));
+
+// navigation_node::override_active_url(new moodle_url('/powerschool/index.php'), true);
+// $PAGE->set_primary_active_tab('home');
+// $PAGE->navbar->add(get_string('coursemgmt', 'admin'), $managementurl);
+// admin_externalpage_setup('powerschool','',$pageparams);
+
+// $PAGE->navbar->ignore_active(); 
+
+// navigation_node::override_active_url(new moodle_url('/powerschool/index.php'), true);
+$PAGE->settingsnav->add(get_string('reglagess'),  new moodle_url('/powerschool/index.php'),  navigation_node::TYPE_CONTAINER);
+// $PAGE->set_primary_active_tab('home');
+// $PAGE->secondarynav->children->find('powerschool');
+$PAGE->navbar->add(get_string('reglages', 'local_powerschool'), $managementurl);
+// admin_externalpage_setup('powerschool','',$pageparams);
+
+
 
 global $DB;
 
 require_login();
 $context = context_system::instance();
-// require_capability('local/message:managemessages', $context);
+require_capability('local/powerschool:managepages', $context);
 
 $PAGE->set_url(new moodle_url('/local/powerschool/index.php'));
-$PAGE->set_context(\context_system::instance());
+$PAGE->set_context($context);
+$PAGE->set_pagelayout('index');
+// $title = 'Accueil';
+// $PAGE->navbar->add($title);
+
 $PAGE->set_title('Accueil');
-$PAGE->set_heading('Accueil');
+// $PAGE->set_heading('Accueil');
+
 
 echo $OUTPUT->header();
 
@@ -49,6 +90,7 @@ $templatecontext = (object)[
     'seance' => new moodle_url('/local/powerschool/seance.php'),
     'inscription' => new moodle_url('/local/powerschool/inscription.php'),
     'enseigner' => new moodle_url('/local/powerschool/enseigner.php'),
+    'paiement' => new moodle_url('/local/powerschool/paiement.php'),
 
 
 ];

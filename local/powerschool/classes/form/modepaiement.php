@@ -28,7 +28,7 @@ use stdClass;
 
 require_once("$CFG->libdir/formslib.php");
 
-class modepayement extends moodleform {
+class modepaiement extends moodleform {
 
     //Add elements to form
     public function definition() {
@@ -57,7 +57,7 @@ class modepayement extends moodleform {
      * @param string $datedebut la date de debut de l'annee
      * @param string $datefin date de fin de l'annee 
      */
-    public function update_modepayement(int $id, string $libmodepay ): bool
+    public function update_modepaiement(int $id, string $libmodepay ): bool
     {
         global $DB;
         global $USER;
@@ -65,7 +65,7 @@ class modepayement extends moodleform {
         $object->id = $id;
         $object->libmodepay = $libmodepay ;
 
-        return $DB->update_record('modepayement', $object);
+        return $DB->update_record('modepaiement', $object);
     }
 
 
@@ -73,13 +73,13 @@ class modepayement extends moodleform {
      * @param int $anneeid l'id de l'année selectionné .
      */
 
-    public function get_modepayement(int $modepayementid)
+    public function get_modepaiement(int $modepaiementid)
     {
         global $DB;
-        return $DB->get_record('modepayement', ['id' => $modepayementid]);
+        return $DB->get_record('modepaiement', ['id' => $modepaiementid]);
     }
 
-    public function selectmodepayement (string $sql)
+    public function selectmodepaiement (string $sql)
     {
         global $DB;
 
@@ -92,12 +92,12 @@ class modepayement extends moodleform {
     /** pour supprimer une annéee scolaire
      * @param $id c'est l'id  de l'année à supprimer
      */
-    public function supp_modepayement(int $id)
+    public function supp_modepaiement(int $id)
     {
         global $DB;
         $transaction = $DB->start_delegated_transaction();
-        $suppmodepayement = $DB->delete_records('modepayement', ['id'=> $id]);
-        if ($suppmodepayement){
+        $suppmodepaiement = $DB->delete_records('modepaiement', ['id'=> $id]);
+        if ($suppmodepaiement){
             $DB->commit_delegated_transaction($transaction);
         }
 

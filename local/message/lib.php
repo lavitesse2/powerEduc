@@ -44,6 +44,6 @@ function local_message_before_footer() {
         }
         \core\notification::add($message->messagetext, $type);
 
-        $manager->mark_message_read($message->id, $USER->id);
+        // $manager->mark_message_read($message->id, $USER->id);
     }
 }

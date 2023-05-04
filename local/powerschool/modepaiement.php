@@ -21,26 +21,29 @@
  */
 
 use core\progress\display;
-use local_powerschool\form\modepayement;
+use local_powerschool\form\modepaiement;
 
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->dirroot.'/local/powerschool/classes/form/modepayement.php');
+require_once($CFG->dirroot.'/local/powerschool/classes/form/modepaiement.php');
 
 global $DB;
 global $USER;
 
 require_login();
 $context = context_system::instance();
-// require_capability('local/message:managemessages', $context);
+require_capability('local/powerschool:managepages', $context);
 
-$PAGE->set_url(new moodle_url('/local/powerschool/modepayement.php'));
+$PAGE->set_url(new moodle_url('/local/powerschool/modepaiement.php'));
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Enregistrer un mode paiement');
 $PAGE->set_heading('Enregistrer un mode paiement');
+
+$PAGE->navbar->add('Administration du Site',  new moodle_url('/local/powerschool/index.php'));
+$PAGE->navbar->add(get_string('Modepaiement', 'local_powerschool'), $managementurl);
 // $PAGE->requires->js_call_amd('local_powerschool/confirmsupp');
 // $PAGE->requires->js_call_amd('local_powerschool/confirmsupp');
 
-$mform=new modepayement();
+$mform=new modepaiement();
 
 
 
@@ -58,33 +61,33 @@ $recordtoinsert = $fromform;
     // var_dump($fromform);
     // die;
  
-        $DB->insert_record('modepayement', $recordtoinsert);
+        $DB->insert_record('modepaiement', $recordtoinsert);
 }
 
 if($_GET['id']) {
 
-    $mform->supp_modepayement($_GET['id']);
-    redirect($CFG->wwwroot . '/local/powerschool/modepayement.php', 'Bien supp');
+    $mform->supp_modepaiement($_GET['id']);
+    redirect($CFG->wwwroot . '/local/powerschool/modepaiement.php', 'Bien supp');
         
 }
 
 
 
-// var_dump($mform->selectmodepayement());
+// var_dump($mform->selectmodepaiement());
 // die;
-$modepayement = $DB->get_records('modepayement', null, 'id');
+$modepaiement = $DB->get_records('modepaiement', null, 'id');
 
 $templatecontext = (object)[
-    'modepayement' => array_values($modepayement),
-    'modepayementedit' => new moodle_url('/local/powerschool/modepayementedit.php'),
-    'modepayementsupp'=> new moodle_url('/local/powerschool/modepayement.php'),
+    'modepaiement' => array_values($modepaiement),
+    'modepaiementedit' => new moodle_url('/local/powerschool/modepaiementedit.php'),
+    'modepaiementsupp'=> new moodle_url('/local/powerschool/modepaiement.php'),
 ];
 
 echo $OUTPUT->header();
 $mform->display();
 
 
-echo $OUTPUT->render_from_template('local_powerschool/modepayement', $templatecontext);
+echo $OUTPUT->render_from_template('local_powerschool/modepaiement', $templatecontext);
 
 
 echo $OUTPUT->footer();

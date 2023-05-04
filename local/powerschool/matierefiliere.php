@@ -21,10 +21,10 @@
  */
 
 use core\progress\display;
-use local_powerschool\form\matiere;
+use local_powerschool\form\matierefiliere;
 
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->dirroot.'/local/powerschool/classes/form/matiere.php');
+require_once($CFG->dirroot.'/local/powerschool/classes/form/matierefiliere.php');
 
 global $DB;
 global $USER;
@@ -33,16 +33,16 @@ require_login();
 $context = context_system::instance();
 require_capability('local/powerschool:managepages', $context);
 
-$PAGE->set_url(new moodle_url('/local/powerschool/matiere.php'));
+$PAGE->set_url(new moodle_url('/local/powerschool/matierefiliere.php'));
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Enregistrer une matiere');
-$PAGE->set_heading('Enregistrer une matiere');
+$PAGE->set_title('Attribution des Matieres');
+$PAGE->set_heading('Attribution des Matieres');
 
-$PAGE->navbar->add(get_string('matiere', 'local_powerschool'), $managementurl);
+$PAGE->navbar->add(get_string('matierefiliere', 'local_powerschool'), $managementurl);
 // $PAGE->requires->js_call_amd('local_powerschool/confirmsupp');
 // $PAGE->requires->js_call_amd('local_powerschool/confirmsupp');
 
-$mform=new matiere();
+$mform=new matierefiliere();
 
 
 
@@ -60,24 +60,37 @@ $recordtoinsert = $fromform;
     // var_dump($fromform);
     // die;
  
-        $DB->insert_record('matiere', $recordtoinsert);
+        $DB->insert_record('matierefiliere', $recordtoinsert);
 }
 
 if($_GET['id']) {
 
-    $mform->supp_matiere($_GET['id']);
-    redirect($CFG->wwwroot . '/local/powerschool/matiere.php', 'Bien supp');
+    $mform->supp_matierefiliere($_GET['id']);
+    redirect($CFG->wwwroot . '/local/powerschool/matierefiliere.php', 'Bien supp');
         
 }
 
+$matierefiliere = $DB->get_records('matierefiliere', null, 'id');
+$foreing = array();
+
+foreach ($matierefiliere as $key ) {
+    
+    $foreing = $mform->foreingkey($key->idmatiere,$key->idfiliere,$key->idcycle);
+
+    }
+
+    // var_dump( $foreing);
+    // die;
 
 
-$matiere = $DB->get_records('matiere', null, 'id');
+
+$matierefiliere = $DB->get_records('matierefiliere', null, 'id');
 
 $templatecontext = (object)[
-    'matiere' => array_values($matiere),
-    'matiereedit' => new moodle_url('/local/powerschool/matiereedit.php'),
-    'matieresupp'=> new moodle_url('/local/powerschool/matiere.php'),
+    'matierefiliere' => array_values($matierefiliere),
+    'foreing' => array_values($foreing),
+    'matierefiliereedit' => new moodle_url('/local/powerschool/matierefiliereedit.php'),
+    'matierefilieresupp'=> new moodle_url('/local/powerschool/matierefiliere.php'),
 ];
 
 $menu = (object)[
@@ -87,7 +100,7 @@ $menu = (object)[
     'filiere' => new moodle_url('/local/powerschool/filiere.php'),
     'cycle' => new moodle_url('/local/powerschool/cycle.php'),
     'modepayement' => new moodle_url('/local/powerschool/modepayement.php'),
-    'matiere' => new moodle_url('/local/powerschool/matiere.php'),
+    'matierefiliere' => new moodle_url('/local/powerschool/matierefiliere.php'),
     'seance' => new moodle_url('/local/powerschool/seance.php'),
     'inscription' => new moodle_url('/local/powerschool/inscription.php'),
     'enseigner' => new moodle_url('/local/powerschool/enseigner.php'),
@@ -102,7 +115,7 @@ echo $OUTPUT->render_from_template('local_powerschool/navbar', $menu);
 $mform->display();
 
 
-echo $OUTPUT->render_from_template('local_powerschool/matiere', $templatecontext);
+echo $OUTPUT->render_from_template('local_powerschool/matierefiliere', $templatecontext);
 
 
 echo $OUTPUT->footer();

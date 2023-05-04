@@ -31,12 +31,15 @@ global $USER;
 
 require_login();
 $context = context_system::instance();
-// require_capability('local/message:managemessages', $context);
+require_capability('local/powerschool:managepages', $context);
 
 $PAGE->set_url(new moodle_url('/local/powerschool/campus.php'));
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Enregistrer un Campus');
 $PAGE->set_heading('Enregistrer un Campus');
+
+$PAGE->navbar->add('Administration du Site',  new moodle_url('/local/powerschool/index.php'));
+$PAGE->navbar->add(get_string('Campus', 'local_powerschool'), $managementurl);
 // $PAGE->requires->js_call_amd('local_powerschool/confirmsupp');
 // $PAGE->requires->js_call_amd('local_powerschool/confirmsupp');
 
@@ -68,10 +71,6 @@ if($_GET['id']) {
         
 }
 
-
-
-// var_dump($mform->selectcampus());
-// die;
 $campus = $DB->get_records('campus', null, 'id');
 
 $templatecontext = (object)[
@@ -80,7 +79,25 @@ $templatecontext = (object)[
     'campussupp'=> new moodle_url('/local/powerschool/campus.php'),
 ];
 
+$menu = (object)[
+    'annee' => new moodle_url('/local/powerschool/anneescolaire.php'),
+    'campus' => new moodle_url('/local/powerschool/campus.php'),
+    'salle' => new moodle_url('/local/powerschool/salle.php'),
+    'filiere' => new moodle_url('/local/powerschool/filiere.php'),
+    'cycle' => new moodle_url('/local/powerschool/cycle.php'),
+    'modepayement' => new moodle_url('/local/powerschool/modepayement.php'),
+    'matiere' => new moodle_url('/local/powerschool/matiere.php'),
+    'seance' => new moodle_url('/local/powerschool/seance.php'),
+    'inscription' => new moodle_url('/local/powerschool/inscription.php'),
+    'enseigner' => new moodle_url('/local/powerschool/enseigner.php'),
+    'paiement' => new moodle_url('/local/powerschool/paiement.php'),
+];
+
+
 echo $OUTPUT->header();
+
+
+echo $OUTPUT->render_from_template('local_powerschool/navbar', $menu);
 $mform->display();
 
 

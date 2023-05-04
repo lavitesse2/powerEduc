@@ -21,68 +21,68 @@
  */
 
 use core\progress\display;
-use local_powerschool\form\cycle;
+use local_powerschool\form\paiement;
 
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->dirroot.'/local/powerschool/classes/form/cycle.php');
+require_once($CFG->dirroot.'/local/powerschool/classes/form/paiement.php');
 
 global $DB;
+global $USER;
 
 require_login();
 $context = context_system::instance();
 require_capability('local/powerschool:managepages', $context);
 
-// $PAGE->set_url(new moodle_url('/local/powerschool/anneescolaireedit.php'));
+$PAGE->set_url(new moodle_url('/local/powerschool/paiement.php'));
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Modifier un cycle');
-$PAGE->set_heading('Modifier un cycle');
+$PAGE->set_title('Enregistrer une paiement');
+$PAGE->set_heading('Enregistrer une paiement');
+// $PAGE->requires->js_call_amd('local_powerschool/confirmsupp');
+// $PAGE->requires->js_call_amd('local_powerschool/confirmsupp');
 
+$mform=new paiement();
 
-$id = optional_param('id',null,PARAM_INT);
-
-$mform=new cycle();
 
 
 if ($mform->is_cancelled()) {
 
-    redirect($CFG->wwwroot . '/local/powerschool/cycle.php', 'annuler');
+    redirect($CFG->wwwroot . '/local/powerschool/index.php', 'annuler');
 
 } else if ($fromform = $mform->get_data()) {
 
-$recordtoinsert = new cycle();
 
-    if($fromform->id) {
+$recordtoinsert = new stdClass();
 
-        $recordtoinsert->update_cycle($fromform->id, $fromform->libellecycle,$fromform->anneecycle );
-        redirect($CFG->wwwroot . '/local/powerschool/cycle.php', 'Bien modifier');
+$recordtoinsert = $fromform;
+
+    // var_dump($fromform);
+    // die;
+ 
+        $DB->insert_record('paiement', $recordtoinsert);
+}
+
+if($_GET['id']) {
+
+    $mform->supp_paiement($_GET['id']);
+    redirect($CFG->wwwroot . '/local/powerschool/paiement.php', 'Bien supp');
         
-    }
-
-}
-
-if ($id) {
-    // Add extra data to the form.
-    global $DB;
-    $newcycle = new cycle();
-    $cycle = $newcycle->get_cycle($id);
-    if (!$cycle) {
-        throw new invalid_parameter_exception('Message not found');
-    }
-    $mform->set_data($cycle);
 }
 
 
+
+$paiement = $DB->get_records('paiement', null, 'id');
+
+$templatecontext = (object)[
+    'paiement' => array_values($paiement),
+    'paiementedit' => new moodle_url('/local/powerschool/paiementedit.php'),
+    'paiementsupp'=> new moodle_url('/local/powerschool/paiement.php'),
+];
 
 echo $OUTPUT->header();
 $mform->display();
+
+
+echo $OUTPUT->render_from_template('local_powerschool/paiement', $templatecontext);
+
+
 echo $OUTPUT->footer();
-
-
-
-// if ($fromform->id) {
-
-//     $mform->update_annee($fromform->id, $fromform->datedebut, $fromform->dstefin);
-//     redirect($CFG->wwwroot . '/local/powerschool/anneescolaire.php', 'Bien modifier');
-    
-   
-// }

@@ -30,12 +30,13 @@ global $DB;
 
 require_login();
 $context = context_system::instance();
-// require_capability('local/message:managemessages', $context);
+require_capability('local/powerschool:managepages', $context);
 
 // $PAGE->set_url(new moodle_url('/local/powerschool/anneescolaireedit.php'));
 $PAGE->set_context(\context_system::instance());
 $PAGE->set_title('Modifier une Année Scolaire');
 $PAGE->set_heading('Modifier une Année Scolaire');
+$PAGE->navbar->add(get_string('Annee_edit', 'local_powerschool'), $managementurl);
 
 
 $id = optional_param('id',null,PARAM_INT);

@@ -37,16 +37,22 @@ class filiere extends moodleform {
         global $USER;
         $mform = $this->_form; // Don't forget the underscore!
 
+        $mform->addElement('header','Filiere ', 'Filiere');
+
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
 
         $mform->addElement('text', 'libellefiliere', 'Libellé filiere'); // Add elements to your form
         $mform->setType('libellefiliere', PARAM_TEXT);                   //Set type of element
         $mform->setDefault('libellefiliere', '');        //Default value
+        $mform->addRule('libellefiliere', 'Libelle Filiere', 'required', null, 'client');
+        $mform->addHelpButton('libellefiliere', 'filiere');
 
         $mform->addElement('text', 'abbreviation', 'Abreviation filiere'); // Add elements to your form
         $mform->setType('abbreviation', PARAM_TEXT);                   //Set type of element
         $mform->setDefault('abbreviation', '');        //Default value
+        $mform->addRule('abbreviation', 'abbreviation Filiere', 'required', null, 'client');
+        $mform->addHelpButton('abbreviation', 'abbreviation');
               
         $mform->addElement('hidden', 'usermodified'); // Add elements to your form
         $mform->setType('usermodified', PARAM_INT);                   //Set type of element

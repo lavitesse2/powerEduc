@@ -21,40 +21,40 @@
  */
 
 use core\progress\display;
-use local_powerschool\form\modepayement;
+use local_powerschool\form\paiement;
 
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->dirroot.'/local/powerschool/classes/form/modepayement.php');
+require_once($CFG->dirroot.'/local/powerschool/classes/form/paiement.php');
 
 global $DB;
 
 require_login();
 $context = context_system::instance();
-// require_capability('local/message:managemessages', $context);
+require_capability('local/powerschool:managepages', $context);
 
 // $PAGE->set_url(new moodle_url('/local/powerschool/anneescolaireedit.php'));
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Modifier un modepayement');
-$PAGE->set_heading('Modifier un modepayement');
+$PAGE->set_title('Modifier un paiement');
+$PAGE->set_heading('Modifier un paiement');
 
 
 $id = optional_param('id',null,PARAM_INT);
 
-$mform=new modepayement();
+$mform=new paiement();
 
 
 if ($mform->is_cancelled()) {
 
-    redirect($CFG->wwwroot . '/local/powerschool/modepayement.php', 'annuler');
+    redirect($CFG->wwwroot . '/local/powerschool/paiement.php', 'annuler');
 
 } else if ($fromform = $mform->get_data()) {
 
-$recordtoinsert = new modepayement();
+$recordtoinsert = new paiement();
 
     if($fromform->id) {
 
-        $recordtoinsert->update_modepayement($fromform->id, $fromform->libmodepaye);
-        redirect($CFG->wwwroot . '/local/powerschool/modepayement.php', 'Bien modifier');
+        $recordtoinsert->update_paiement($fromform->id, $fromform->montantpaiement,$fromform->idinscription, $fromform->idmodepaiement);
+        redirect($CFG->wwwroot . '/local/powerschool/paiement.php', 'Bien modifier');
         
     }
 
@@ -63,12 +63,12 @@ $recordtoinsert = new modepayement();
 if ($id) {
     // Add extra data to the form.
     global $DB;
-    $newmodepayement = new modepayement();
-    $modepayement = $newmodepayement->get_modepayement($id);
-    if (!$modepayement) {
+    $newpaiement = new paiement();
+    $paiement = $newpaiement->get_paiement($id);
+    if (!$paiement) {
         throw new invalid_parameter_exception('Message not found');
     }
-    $mform->set_data($modepayement);
+    $mform->set_data($paiement);
 }
 
 

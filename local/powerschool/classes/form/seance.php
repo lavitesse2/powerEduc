@@ -49,12 +49,16 @@ class seance extends moodleform {
 
         $mform = $this->_form; // Don't forget the underscore!
 
+        $mform->addElement('header','seances','seances');
+
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
 
         $mform->addElement('text', 'libelleseance', 'Libelle de la seance'); // Add elements to your form
         $mform->setType('libelleseance', PARAM_TEXT);                   //Set type of element
         $mform->setDefault('libelleseance', '');        //Default value
+        $mform->addRule('libelleseance', 'libelle seance', 'required', null, 'client');
+        $mform->addHelpButton('libelleseance', 'seance');
        
        
         $mform->addElement('hidden', 'usermodified'); // Add elements to your form

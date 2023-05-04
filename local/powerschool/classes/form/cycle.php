@@ -37,16 +37,22 @@ class cycle extends moodleform {
         global $USER;
         $mform = $this->_form; // Don't forget the underscore!
 
+        $mform->addElement('header','cycle','cycle');
+
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
 
         $mform->addElement('text', 'libellecycle', 'Libellé cycle'); // Add elements to your form
         $mform->setType('libellecycle', PARAM_TEXT);                   //Set type of element
         $mform->setDefault('libellecycle', '');        //Default value
+        $mform->addRule('libellecycle', 'Libelle Cycle', 'required', null, 'client');
+        $mform->addHelpButton('libellecycle', 'Cycle');
        
         $mform->addElement('text', 'anneecycle', 'Nombres d\'année du Cycle'); // Add elements to your form
         $mform->setType('anneecycle', PARAM_TEXT);                   //Set type of element
         $mform->setDefault('anneecycle','');        //Default value
+        $mform->addRule('anneecycle', 'Annee Cycle', 'required', null, 'client');
+        $mform->addHelpButton('anneecycle', 'Cycle');
 
 
         $this->add_action_buttons();

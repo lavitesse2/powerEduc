@@ -21,10 +21,10 @@
  */
 
 use core\progress\display;
-use local_powerschool\form\cycle;
+use local_powerschool\form\modepaiement;
 
 require_once(__DIR__ . '/../../config.php');
-require_once($CFG->dirroot.'/local/powerschool/classes/form/cycle.php');
+require_once($CFG->dirroot.'/local/powerschool/classes/form/modepaiement.php');
 
 global $DB;
 
@@ -34,27 +34,27 @@ require_capability('local/powerschool:managepages', $context);
 
 // $PAGE->set_url(new moodle_url('/local/powerschool/anneescolaireedit.php'));
 $PAGE->set_context(\context_system::instance());
-$PAGE->set_title('Modifier un cycle');
-$PAGE->set_heading('Modifier un cycle');
+$PAGE->set_title('Modifier un modepaiement');
+$PAGE->set_heading('Modifier un modepaiement');
 
 
 $id = optional_param('id',null,PARAM_INT);
 
-$mform=new cycle();
+$mform=new modepaiement();
 
 
 if ($mform->is_cancelled()) {
 
-    redirect($CFG->wwwroot . '/local/powerschool/cycle.php', 'annuler');
+    redirect($CFG->wwwroot . '/local/powerschool/modepaiement.php', 'annuler');
 
 } else if ($fromform = $mform->get_data()) {
 
-$recordtoinsert = new cycle();
+$recordtoinsert = new modepaiement();
 
     if($fromform->id) {
 
-        $recordtoinsert->update_cycle($fromform->id, $fromform->libellecycle,$fromform->anneecycle );
-        redirect($CFG->wwwroot . '/local/powerschool/cycle.php', 'Bien modifier');
+        $recordtoinsert->update_modepaiement($fromform->id, $fromform->libmodepaye);
+        redirect($CFG->wwwroot . '/local/powerschool/modepaiement.php', 'Bien modifier');
         
     }
 
@@ -63,12 +63,12 @@ $recordtoinsert = new cycle();
 if ($id) {
     // Add extra data to the form.
     global $DB;
-    $newcycle = new cycle();
-    $cycle = $newcycle->get_cycle($id);
-    if (!$cycle) {
+    $newmodepaiement = new modepaiement();
+    $modepaiement = $newmodepaiement->get_modepaiement($id);
+    if (!$modepaiement) {
         throw new invalid_parameter_exception('Message not found');
     }
-    $mform->set_data($cycle);
+    $mform->set_data($modepaiement);
 }
 
 

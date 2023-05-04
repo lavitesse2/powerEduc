@@ -28,33 +28,64 @@ use local_powerschool\form\campus;
 
 
 require_once("$CFG->libdir/formslib.php");
-require_once($CFG->dirroot.'/local/powerschool/classes/form/campus.php');
 
-class salle extends moodleform {
+class matierefiliere extends moodleform {
 
     //Add elements to form
     public function definition() {
         global $CFG;
         
         global $USER;
-        $campus = new campus();
-        $camp = array();
-        $sql = "SELECT * FROM {campus} ";
-        $camp = $campus->select($sql);
-        
+        $req = new campus();
+
+        $matiere = $filiere = $cycle = array();
+
+        $sql1 = "SELECT * FROM {course}";
+        $sql2 = "SELECT * FROM {filiere}";
+        $sql3 = "SELECT * FROM {cycle}";
+
+        $matiere = $req->select($sql1);
+        $filiere = $req->select($sql2);
+        $cycle =  $req->select($sql3);
 
         $mform = $this->_form; // Don't forget the underscore!
 
-        $mform->addElement('header','Salle', 'Salle');
+        $mform->addElement('header','matierefiliere','Attribuer Les Matieres');
 
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
 
-        $mform->addElement('text', 'numerosalle', 'Numeros de Salle'); // Add elements to your form
-        $mform->setType('numerosalle', PARAM_TEXT);                   //Set type of element
-        $mform->setDefault('numerosalle', '');        //Default value
-        $mform->addRule('numerosalle', 'Numeros de la Salle', 'required', null, 'client');
-        $mform->addHelpButton('numerosalle', 'salle');
+        foreach($matiere as $key => $val)
+        {
+            $select1[$key]= $val->fullname;
+        }
+        foreach($filiere as $key => $val )
+        {
+            $select2[$key]= $val->libellefiliere." (".$val->abbreviation.")";
+        }
+        foreach($cycle as $key => $val)
+        {
+            $select3[$key]= $val->libellecycle;
+        }
+
+
+        $mform->addElement('select', 'idfiliere', 'Filiere',$select2); // Add elements to your form
+        $mform->setType('idfiliere', PARAM_TEXT);                   //Set type of element
+        $mform->setDefault('idfiliere', '');        //Default value
+        $mform->addRule('idfiliere', 'libelle de la Filiere', 'required', null, 'client');
+        $mform->addHelpButton('idfiliere', 'filiere');
+
+        $mform->addElement('select', 'idmatiere', 'Matiere',$select1); // Add elements to your form
+        $mform->setType('idmatiere', PARAM_TEXT);                   //Set type of element
+        $mform->setDefault('idmatiere', '');        //Default value
+        $mform->addRule('idmatiere', 'libelle de la matiere', 'required', null, 'client');
+        $mform->addHelpButton('idmatiere', 'matiere');
+
+        $mform->addElement('select', 'idcycle', 'Cycle', $select3); // Add elements to your form
+        $mform->setType('idcycle', PARAM_TEXT);                   //Set type of element
+        $mform->setDefault('idcycle', '');        //Default value
+        $mform->addRule('idcycle', 'libelle du cycle', 'required', null, 'client');
+        $mform->addHelpButton('idcycle', 'cycle');
        
        
         $mform->addElement('hidden', 'usermodified'); // Add elements to your form
@@ -68,20 +99,6 @@ class salle extends moodleform {
         $mform->addElement('hidden', 'timemodified', 'date de modification'); // Add elements to your form
         $mform->setType('timemodified', PARAM_INT);                   //Set type of element
         $mform->setDefault('timemodified', time());        //Default value
-
-
-        foreach ($camp as $key => $val)
-        {
-            $selectcamp[$key] = $val->nomcampus;
-        }
-        // var_dump( $campus->selectcampus($sql)); 
-        // die;
-        $mform->addElement('select', 'idcampus', 'Campus', $selectcamp ); // Add elements to your form
-        $mform->setType('idcampus', PARAM_TEXT);                   //Set type of element
-        $mform->setDefault('idcampus', '');        //Default value
-        $mform->addRule('idcampus', 'Choix du Campus', 'required', null, 'client');
-        $mform->addHelpButton('idcampus', 'campus');
-
        
 
         $this->add_action_buttons();
@@ -99,20 +116,21 @@ class salle extends moodleform {
      * @param string $datedebut la date de debut de l'annee
      * @param string $datefin date de fin de l'annee 
      */
-    public function update_salle(int $id, string $numerosalle,int $idcampus ): bool
+    public function update_matierefiliere(int $id, string $idmatiere,string $idfiliere,string $idcycle ): bool
     {
         global $DB;
         global $USER;
         $object = new stdClass();
         $object->id = $id;
-        $object->numerosalle = $numerosalle ;
-        $object->idcampus = $idcampus;
+        $object->idmatiere = $idmatiere ;
+        $object->idfiliere = $idfiliere ;
+        $object->idcycle = $idcycle ;
         $object->usermodified = $USER->id;
         $object->timemodified = time();
 
 
 
-        return $DB->update_record('salle', $object);
+        return $DB->update_record('matierefiliere', $object);
     }
 
 
@@ -120,22 +138,40 @@ class salle extends moodleform {
      * @param int $anneeid l'id de l'année selectionné .
      */
 
-    public function get_salle(int $salleid)
+    public function get_matierefiliere(int $matierefiliereid)
     {
         global $DB;
-        return $DB->get_record('salle', ['id' => $salleid]);
+        return $DB->get_record('matierefiliere', ['id' => $matierefiliereid]);
     }
 
 
+    public function foreingkey (int $idmatiere, int $idfiliere, int $cycle)
+    {
+        global $DB;
+
+        $sql = "SELECT * FROM 
+        {matierefiliere} m,  {course} c, {filiere} f, {cycle} cy
+        WHERE m.idcycle = cy.id
+        AND m.idfiliere = f.id
+        AND m.idmatiere = c.id";
+
+
+        return $DB->get_records_sql($sql);
+
+        var_dump($sql);
+        die;
+        
+
+    }
 
     /** pour supprimer une annéee scolaire
      * @param $id c'est l'id  de l'année à supprimer
      */
-    public function supp_salle(int $id)
+    public function supp_matierefiliere(int $id)
     {
         global $DB;
         $transaction = $DB->start_delegated_transaction();
-        $suppcampus = $DB->delete_records('salle', ['id'=> $id]);
+        $suppcampus = $DB->delete_records('matierefiliere', ['id'=> $id]);
         if ($suppcampus){
             $DB->commit_delegated_transaction($transaction);
         }

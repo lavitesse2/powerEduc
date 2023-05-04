@@ -40,10 +40,11 @@ class inscription extends moodleform {
         $annee = $campus = $user = $filiere = $cycle= array();
         $sqlannee = "SELECT * FROM {anneescolaire} ";
         $sqlcampus = "SELECT * FROM {campus}";
-        $sqluser = "SELECT * FROM {user} ";
+        $sqluser = "SELECT * FROM {user} u , {role_assignments} p ,{role} r WHERE r.id = p.roleid AND p.userid=u.id AND r.shortname='student'; ";
         $sqlfiliere = "SELECT * FROM {filiere}";
         $sqlcycle = "SELECT * FROM {cycle} ";
 
+        
         $annee = $req->select($sqlannee);
         $campus = $req->select($sqlcampus);
         $user = $req->select($sqluser);
@@ -52,12 +53,16 @@ class inscription extends moodleform {
 
         $mform = $this->_form; // Don't forget the underscore!
 
+        $mform->addElement('header','Inscription','Numeros d\'Inscription');
+
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
 
         $mform->addElement('text', 'numeroinscription', 'Numero d\'inscription'); // Add elements to your form
         $mform->setType('numeroinscription', PARAM_INT);                   //Set type of element
         $mform->setDefault('numeroinscription', '');        //Default value
+        $mform->addRule('numeroinscription', 'Numero d\'Inscription', 'required', null, 'client');
+        $mform->addHelpButton('numeroinscription', 'inscription');
 
         foreach ($annee as $key => $val)
         {
@@ -86,25 +91,42 @@ class inscription extends moodleform {
 
         }
        
+        $mform->addElement('header','Annee Scolaire','Annee Scolaire');
         $mform->addElement('select', 'idanneescolaire', 'Année Scolaire',$selectannee); // Add elements to your form
         $mform->setType('idanneescolaire', PARAM_INT);                   //Set type of element
         $mform->setDefault('idanneescolaire','');        //Default value
+        $mform->addRule('idanneescolaire', 'annee scolaire', 'required', null, 'client');
+        $mform->addHelpButton('idanneescolaire', 'annee_scolaire');
 
+
+        $mform->addElement('header','Campus','Campus');
         $mform->addElement('select', 'idcampus', 'Campus', $selectcampus); // Add elements to your form
         $mform->setType('idcampus', PARAM_INT);                   //Set type of element
         $mform->setDefault('idcampus','');        //Default value
+        $mform->addRule('idcampus', 'campus', 'required', null, 'client');
+        $mform->addHelpButton('idcampus', 'campus');
+        
 
+        $mform->addElement('header','Etudiant','Etudiant');
         $mform->addElement('select', 'iduser', 'Etudiant', $selectuser); // Add elements to your form
         $mform->setType('iduser', PARAM_INT);                   //Set type of element
         $mform->setDefault('iduser','');        //Default value
+        $mform->addRule('iduser', 'user', 'required', null, 'client');
+        $mform->addHelpButton('iduser', 'user');
 
+        $mform->addElement('header','Filiere','Filiere');
         $mform->addElement('select', 'idfiliere', 'Filiere ',$selectfiliere); // Add elements to your form
         $mform->setType('idfiliere', PARAM_INT);                   //Set type of element
         $mform->setDefault('idfiliere','');        //Default value
+        $mform->addRule('idfiliere', 'filiere', 'required', null, 'client');
+        $mform->addHelpButton('idfiliere', 'filiere');
 
+        $mform->addElement('header','Cycle','Cycle');
         $mform->addElement('select', 'idcycle', 'Cycle', $selectcycle); // Add elements to your form
         $mform->setType('idcycle', PARAM_INT);                   //Set type of element
         $mform->setDefault('idcycle','');        //Default value
+        $mform->addRule('idcycle', 'cycle', 'required', null, 'client');
+        $mform->addHelpButton('idcycle', 'cycle');
 
         $mform->addElement('hidden', 'usermodified'); // Add elements to your form
         $mform->setType('usermodified', PARAM_INT);                   //Set type of element
@@ -161,7 +183,7 @@ class inscription extends moodleform {
         return $DB->get_record('inscription', ['id' => $inscriptionid]);
     }
 
-    public function foreingkey (int $idannee, int $idcampus, int $iduser, int $idfiliere, int $cycle)
+    public function foreingkey (int $idannee, int $idcampus, int $iduser, int $idfiliere, int $idcycle)
     {
         global $DB;
 

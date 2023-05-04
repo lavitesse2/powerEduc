@@ -70,6 +70,8 @@ $content = $courserenderer->course_category($categoryid);
 $PAGE->set_secondary_active_tab('categorymain');
 
 echo $OUTPUT->header();
+
+
 echo $OUTPUT->skip_link_target();
 echo $content;
 

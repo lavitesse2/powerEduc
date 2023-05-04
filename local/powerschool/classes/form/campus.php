@@ -37,24 +37,34 @@ class campus extends moodleform {
         global $USER;
         $mform = $this->_form; // Don't forget the underscore!
 
+        $mform->addElement('header','Campus','Campus');
+
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
 
         $mform->addElement('text', 'nomcampus', 'Nom du Campus'); // Add elements to your form
         $mform->setType('nomcampus', PARAM_TEXT);                   //Set type of element
         $mform->setDefault('nomcampus', '');        //Default value
+        $mform->addRule('nomcampus', 'Nom du Campus', 'required', null, 'client');
+        $mform->addHelpButton('nomcampus', 'Campus');
         
         $mform->addElement('text', 'villecampus', 'Ville'); // Add elements to your form
-        $mform->setType('villcampus', PARAM_TEXT);                   //Set type of element
-        $mform->setDefault('villcampus', '');        //Default value
+        $mform->setType('villecampus', PARAM_TEXT);                   //Set type of element
+        $mform->setDefault('villecampus', '');        //Default value
+        $mform->addRule('villecampus', 'Ville du Campus', 'required', null, 'client');
+        $mform->addHelpButton('villecampus', 'Campus');
 
         $mform->addElement('text', 'adressecampus', 'Adresse'); // Add elements to your form
         $mform->setType('adressecampus', PARAM_TEXT);                   //Set type of element
         $mform->setDefault('adressecampus', '');        //Default value
+        $mform->addRule('adressecampus', 'Adresse du Campus', 'required', null, 'client');
+        $mform->addHelpButton('adressecampus', 'Campus');
+
 
         $mform->addElement('hidden', 'usermodified'); // Add elements to your form
         $mform->setType('usermodified', PARAM_INT);                   //Set type of element
         $mform->setDefault('usermodified', $USER->id);        //Default value
+        
 
         $mform->addElement('hidden', 'timecreated', 'date de creation'); // Add elements to your form
         $mform->setType('timecreated', PARAM_INT);                   //Set type of element
@@ -67,6 +77,8 @@ class campus extends moodleform {
         $mform->addElement('text', 'telcampus', 'Telephone Campus'); // Add elements to your form
         $mform->setType('telcampus', PARAM_INT);                   //Set type of element
         $mform->setDefault('telcampus', '');        //Default value
+        $mform->addRule('telcampus', 'Telephone Campus', 'required', null, 'client');
+        $mform->addHelpButton('telcampus', 'Campus');
 
 
         $this->add_action_buttons();
@@ -136,5 +148,13 @@ class campus extends moodleform {
         }
 
         return true;
+    }
+
+    /**
+     * retourne la liste des etudiants d'un campus
+     */
+    public function Etudiant_Campus (int $userid)
+    {
+        
     }
 }

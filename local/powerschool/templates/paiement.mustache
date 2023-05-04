@@ -23,31 +23,36 @@
 
     }
 }}
-<h1>Liste des mode paiements</h1>
+<h1>Liste des paiements</h1>
 
 <div class="table card mt-2 mb-2">
         <table class="table">
             <thead>
               <tr>
                 <th scope="col">id</th>
-                <th scope="col">Mode de paiement</th>
+                <th scope="col">Montant paiement</th>
+
+                <th scope="col">inscription</th>
+                <th scope="col">mode de paiement</th>
                 <th scope="col">Actions</th>
               </tr>
             </thead>
-            {{#modepayement}}
+            {{#paiement}}
             <tbody>
               <tr>
                 
-                    <th scope="row">{{id}}</th>
-                    <td>{{libmodepay}} </td>
+                    <th scope="row">{{id}} </th>
+                    <td>{{montantpaiement}} </td>
+                    <td>{{idinscription}} </td>
+                    <td>{{idmodepaiement}} </td>
                     <td>
-                        <input type="button" class="btn btn-primary" value="modifier" onclick="location.href='{{modepayementedit}}?id={{id}}'">
-                        <input type="button" class="btn btn-danger local_annee_delete_button" value="supprimer" onclick="location.href='{{modepayementsupp}}?id={{id}}'">
+                        <input type="button" class="btn btn-primary" value="modifier" onclick="location.href='{{paiementedit}}?id={{id}}'">
+                        <input type="button" class="btn btn-danger local_annee_delete_button" value="supprimer" onclick="location.href='{{paiementsupp}}?id={{id}}'">
                     </td>
                 </tr>
             </tbody>
             
-            {{/modepayement}}
+            {{/paiement}}
           </table>
 </div>
 

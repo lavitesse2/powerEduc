@@ -38,9 +38,12 @@ class paiement extends moodleform {
         
         global $USER;
         $campus = new campus();
-        $camp = array();
-        $sql = "SELECT * FROM {campus} ";
-        $camp = $campus->select($sql);
+        $inscrip = $modepaie = array();
+        $sql1 = "SELECT * FROM {inscription} ";
+        $sql2 = "SELECT * FROM {modepaiement} ";
+
+        $inscrip = $campus->select($sql1);
+        $modepaie = $campus->select($sql2);
         
 
         $mform = $this->_form; // Don't forget the underscore!
@@ -48,10 +51,9 @@ class paiement extends moodleform {
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
 
-        $mform->addElement('text', 'numeropaiement', 'Numeros de paiement'); // Add elements to your form
-        $mform->setType('numeropaiement', PARAM_TEXT);                   //Set type of element
-        $mform->setDefault('numeropaiement', '');        //Default value
-       
+        $mform->addElement('text', 'montantpaiement', 'Montant du paiement'); // Add elements to your form
+        $mform->setType('montantpaiement', PARAM_TEXT);                   //Set type of element
+        $mform->setDefault('montantpaiement', '');        //Default value
        
         $mform->addElement('hidden', 'usermodified'); // Add elements to your form
         $mform->setType('usermodified', PARAM_INT);                   //Set type of element
@@ -65,15 +67,24 @@ class paiement extends moodleform {
         $mform->setType('timemodified', PARAM_INT);                   //Set type of element
         $mform->setDefault('timemodified', time());        //Default value
 
-        foreach ($camp as $key => $val)
+        foreach ($inscrip as $key => $val)
         {
-            $selectcamp[$key] = $val->nomcampus;
+            $selectinscrip[$key] = $val->nomcampus;
+        }
+
+        foreach ($modepaie as $key => $val)
+        {
+            $selectmodepaie[$key] = $val->nomcampus;
         }
         // var_dump( $campus->selectcampus($sql)); 
         // die;
-        $mform->addElement('select', 'idcampus', 'Campus', $selectcamp ); // Add elements to your form
-        $mform->setType('idcampus', PARAM_TEXT);                   //Set type of element
-        $mform->setDefault('idcampus', '');        //Default value
+        $mform->addElement('select', 'idinscription', 'inscription', $selectinscrip ); // Add elements to your form
+        $mform->setType('idinscription', PARAM_TEXT);                   //Set type of element
+        $mform->setDefault('idinscription', '');        //Default value
+
+        $mform->addElement('select', 'idmodepaiement', 'modepaiement', $selectmodepaie); // Add elements to your form
+        $mform->setType('idmodepaiement', PARAM_TEXT);                   //Set type of element
+        $mform->setDefault('idmodepaiement', '');        //Default value
 
        
 
@@ -92,14 +103,15 @@ class paiement extends moodleform {
      * @param string $datedebut la date de debut de l'annee
      * @param string $datefin date de fin de l'annee 
      */
-    public function update_paiement(int $id, string $numeropaiement,int $idcampus ): bool
+    public function update_paiement(int $id, string $montantpaiement,int $idinscription, int $idmodepaiement ): bool
     {
         global $DB;
         global $USER;
         $object = new stdClass();
         $object->id = $id;
-        $object->numeropaiement = $numeropaiement ;
-        $object->idcampus = $idcampus;
+        $object->montantpaiement = $montantpaiement ;
+        $object->idinscription = $idinscription;
+        $object->idmodepaiement = $idmodepaiement;
         $object->usermodified = $USER->id;
         $object->timemodified = time();
 

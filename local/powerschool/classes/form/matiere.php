@@ -38,12 +38,16 @@ class matiere extends moodleform {
         global $USER;
         $mform = $this->_form; // Don't forget the underscore!
 
+        $mform->addElement('header','matiere','matiere');
+
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
 
         $mform->addElement('text', 'libellematiere', 'Libelle de la matiere'); // Add elements to your form
         $mform->setType('libellematiere', PARAM_TEXT);                   //Set type of element
         $mform->setDefault('libellematiere', '');        //Default value
+        $mform->addRule('libellematiere', 'libelle de la matiere', 'required', null, 'client');
+        $mform->addHelpButton('libellematiere', 'matiere');
        
        
         $mform->addElement('hidden', 'usermodified'); // Add elements to your form

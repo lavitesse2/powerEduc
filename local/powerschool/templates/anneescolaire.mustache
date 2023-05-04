@@ -24,34 +24,40 @@
     }
 }}
 
+
   <h1>Liste des Années Académique</h1>
 
 
-<div class="table card mt-2 mb-2">
   
-  {{#annee}}
-  <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">id</th>
-          <th scope="col">Année academique </th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          
-              <th scope="row">{{id}} </th>
-              <td> Année académique : {{datedebut}} - {{datefin}} </td>
-              <td>
-                  <input type="button" class="btn btn-primary" value="modifier" onclick="location.href='{{salleedit}}?id={{id}}'">
-                  <input type="button" class="btn btn-danger local_annee_delete_button" value="supprimer" onclick="location.href='{{sallesupp}}?id={{id}}'">
-              </td>
+<div class="container-fluid"> 
+
+
+    <div id="page-footer" class="card dashboard-card">
+      
+      {{#annee}}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">id</th>
+            <th scope="col">Année academique </th>
+            <th scope="col">Actions</th>
           </tr>
-      </tbody>
-    </table>
-    
-{{/annee}}
+        </thead>
+        <tbody>
+          <tr>
+            
+                <th scope="row">{{id}} </th>
+                <td> Année académique : {{datedebut}} - {{datefin}} </td>
+                <td>
+                    <input type="button" class="btn btn-primary" value="modifier" onclick="location.href='{{anneeedit}}?id={{id}}'">
+                    <input type="button" class="btn btn-danger local_annee_delete_button" value="supprimer" onclick="location.href='{{anneesupp}}?id={{id}}'">
+                </td>
+            </tr>
+        </tbody>
+      </table>
+        
+      {{/annee}}
+    </div>
 </div>
 
 <hr>
